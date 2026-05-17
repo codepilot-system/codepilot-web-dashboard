@@ -1,0 +1,54 @@
+// src/app/router/AppRoutes.tsx
+import React from "react";
+import { Routes, Route, Navigate } from "react-router-dom";
+
+// Feature imports
+import { LoginView } from "../../features/auth/pages/LoginView";
+import { OAuthCallback } from "../../features/auth/pages/OAuthCallback";
+import { ProtectedRoute } from "../../features/auth/components/ProtectedRoute";
+import { OnboardingModal } from "../../features/projects/components/OnboardingModal";
+
+// Shared Layout Wrapper
+import { DashboardLayout } from "../../shared/components/DashboardLayout";
+
+export const AppRoutes: React.FC = () => {
+  return (
+    <Routes>
+      {/* 1. Public Authentication Routes */}
+      <Route path="/login" element={<LoginView />} />
+      <Route path="/auth/callback" element={<OAuthCallback />} />
+
+      {/* 2. Security Shielded Subtree Navigation Paths */}
+      <Route element={<ProtectedRoute />}>
+        {/* Onboarding sits outside the main shell layout because it doesn't need the sidebar/topbar navigation framework yet */}
+        <Route path="/onboarding" element={<OnboardingModal />} />
+
+        {/* Main Dashboard UI frame layout structure shell wrapper */}
+        <Route element={<DashboardLayout />}>
+          {/* Member 2 will drop their overview analytical panels component here */}
+          <Route
+            path="/dashboard"
+            element={
+              <div className="p-4 text-slate-400">
+                [Member 2 Analytics Workspace Viewport]
+              </div>
+            }
+          />
+
+          {/* Member 3 will inject their refactoring issues component matrix grid right here */}
+          <Route
+            path="/issues"
+            element={
+              <div className="p-4 text-slate-400">
+                [Member 3 Issues Registry Viewport]
+              </div>
+            }
+          />
+        </Route>
+      </Route>
+
+      {/* 3. Global Redirection Fallback Catch-All */}
+      <Route path="*" element={<Navigate to="/onboarding" replace />} />
+    </Routes>
+  );
+};
