@@ -1,0 +1,204 @@
+/* ── Page wrapper ──────────────────────────────────────────── */
+.detail-page {
+  padding: 1.5rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* ── Back button ─────────────────────────────────────────────── */
+.detail-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 1.25rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 13px;
+  color: #64748B;
+  padding: 0;
+  transition: color 0.15s;
+}
+
+.detail-back-btn:hover {
+  color: #1E293B;
+}
+
+/* ── Title ───────────────────────────────────────────────────── */
+.detail-title {
+  font-size: 20px;
+  font-weight: 500;
+  color: #1E293B;
+  margin-bottom: 1.5rem;
+}
+
+/* ── Two-column grid ─────────────────────────────────────────── */
+.detail-grid {
+  display: grid;
+  grid-template-columns: 1fr 280px;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+@media (max-width: 768px) {
+  .detail-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── Code block ──────────────────────────────────────────────── */
+.detail-code-block {
+  background: #F8FAFC;
+  border: 1px solid #E2E8F0;
+  border-radius: 8px;
+  padding: 1rem;
+  font-family: 'Fira Code', 'Cascadia Code', monospace;
+  font-size: 12px;
+  margin-bottom: 1rem;
+  overflow-x: auto;
+}
+
+.detail-code-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  font-size: 12px;
+  color: #94A3B8;
+  font-family: sans-serif;
+}
+
+.detail-code-lang {
+  background: #E2E8F0;
+  color: #475569;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+}
+
+/* ── Suggestion action bar ───────────────────────────────────── */
+.detail-action-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #EFF6FF;
+  border-radius: 8px;
+  padding: 10px 16px;
+  font-size: 13px;
+  color: #1D4ED8;
+  gap: 12px;
+}
+
+.detail-action-bar-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+}
+
+.detail-action-bar-buttons {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.detail-btn {
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-size: 13px;
+  cursor: pointer;
+  border: 1px solid #CBD5E1;
+  background: #fff;
+  color: #475569;
+  transition: background 0.15s;
+}
+
+.detail-btn:hover {
+  background: #F8FAFC;
+}
+
+.detail-btn:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.detail-btn--primary {
+  background: #2563EB;
+  color: #fff;
+  border-color: #2563EB;
+}
+
+.detail-btn--primary:hover {
+  background: #1D4ED8;
+}
+
+.detail-btn--ghost {
+  background: none;
+  border-color: transparent;
+  color: #64748B;
+}
+
+.detail-btn--ghost:hover {
+  background: #F1F5F9;
+}
+
+/* ── Right panel cards ───────────────────────────────────────── */
+.detail-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.detail-card {
+  border: 1px solid #E2E8F0;
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+}
+
+.detail-card-title {
+  font-size: 14px;
+  font-weight: 500;
+  color: #1E293B;
+  margin-bottom: 0.75rem;
+}
+
+.detail-card-body {
+  font-size: 13px;
+  line-height: 1.65;
+  color: #64748B;
+}
+
+/* ── Metadata table inside card ──────────────────────────────── */
+.detail-meta-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 7px 0;
+  border-bottom: 1px solid #F1F5F9;
+  font-size: 13px;
+}
+
+.detail-meta-row:last-child {
+  border-bottom: none;
+}
+
+.detail-meta-label {
+  color: #94A3B8;
+}
+
+.detail-meta-value {
+  color: #1E293B;
+  font-weight: 500;
+}
+
+/* ── Severity badge (reused in detail) ───────────────────────── */
+.detail-badge {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.detail-badge--CRITICAL { background: #FEE2E2; color: #B91C1C; }
+.detail-badge--HIGH     { background: #FEF3C7; color: #B45309; }
+.detail-badge--MEDIUM   { background: #EFF6FF; color: #1D4ED8; }
+.detail-badge--LOW      { background: #F0FDF4; color: #15803D; }

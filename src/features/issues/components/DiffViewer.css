@@ -1,0 +1,64 @@
+/* ── Split pane container ────────────────────────────────────── */
+.diff-viewer {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+}
+
+/* ── Individual pane ─────────────────────────────────────────── */
+.diff-pane {
+  flex: 1;
+  min-width: 0;
+}
+
+.diff-pane-label {
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 8px;
+}
+
+.diff-pane-label--original   { color: #94A3B8; }
+.diff-pane-label--refactored { color: #2563EB; }
+
+/* ── Individual line ─────────────────────────────────────────── */
+.diff-line {
+  display: flex;
+  gap: 8px;
+  padding: 1px 6px;
+  border-radius: 3px;
+  font-size: 12px;
+  line-height: 1.7;
+  font-family: 'Fira Code', 'Cascadia Code', monospace;
+}
+
+.diff-line--added   { background: rgba(21, 128, 61,  0.08); }
+.diff-line--removed { background: rgba(185, 28, 28, 0.08); }
+.diff-line--context { background: transparent; }
+
+/* ── Line number ─────────────────────────────────────────────── */
+.diff-line-number {
+  min-width: 28px;
+  text-align: right;
+  color: #CBD5E1;
+  user-select: none;
+  flex-shrink: 0;
+}
+
+/* ── +/- marker ──────────────────────────────────────────────── */
+.diff-marker {
+  width: 10px;
+  flex-shrink: 0;
+}
+
+.diff-marker--added   { color: #15803D; }
+.diff-marker--removed { color: #B91C1C; }
+.diff-marker--context { color: transparent; }
+
+/* ── Code content ────────────────────────────────────────────── */
+.diff-content {
+  flex: 1;
+  white-space: pre;
+  color: #334155;
+}
