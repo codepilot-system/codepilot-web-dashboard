@@ -10,6 +10,8 @@ import { OnboardingModal } from "../../features/projects/components/OnboardingMo
 
 // Shared Layout Wrapper
 import { DashboardLayout } from "../../shared/components/DashboardLayout";
+import IssueDetail from "../../features/issues/pages/IssueDetail";
+import IssuesView from "../../features/issues/pages/IssuesView";
 
 export const AppRoutes: React.FC = () => {
   return (
@@ -36,14 +38,9 @@ export const AppRoutes: React.FC = () => {
           />
 
           {/* Member 3 will inject their refactoring issues component matrix grid right here */}
-          <Route
-            path="/issues"
-            element={
-              <div className="p-4 text-slate-400">
-                [Member 3 Issues Registry Viewport]
-              </div>
-            }
-          />
+          {/* Member 3 — Issues */}
+          <Route path="/issues" element={<IssuesView />} />
+          <Route path="/issues/:issueId" element={<IssueDetail />} />
         </Route>
       </Route>
 
