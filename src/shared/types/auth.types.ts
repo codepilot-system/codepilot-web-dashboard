@@ -10,7 +10,7 @@ export interface AuthContext {
 
 export interface UserData {
   id: number;
-  githubId: string;
+  githubId: number;
   username: string;
   avatarUrl: string;
 }
