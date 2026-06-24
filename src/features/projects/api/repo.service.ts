@@ -7,7 +7,7 @@ export const fetchAvailableGithubRepos = async (
   page: number = 1,
   limit: number = 10,
 ) => {
-  const response = await api.get("/projects/search-github", {
+  const response = await api.get("/projects/discover", {
     params: { search, page, limit },
   });
   return response.data.data as {

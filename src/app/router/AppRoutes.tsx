@@ -7,6 +7,7 @@ import { LoginView } from "../../features/auth/pages/LoginView";
 import { OAuthCallback } from "../../features/auth/pages/OAuthCallback";
 import { ProtectedRoute } from "../../features/auth/components/ProtectedRoute";
 import { OnboardingModal } from "../../features/projects/components/OnboardingModal";
+import  AnalyticsDashboard  from "../../features/analytics/pages/AnalyticsDashboard";
 
 // Shared Layout Wrapper
 import { DashboardLayout } from "../../shared/components/DashboardLayout";
@@ -25,15 +26,8 @@ export const AppRoutes: React.FC = () => {
 
         {/* Main Dashboard UI frame layout structure shell wrapper */}
         <Route element={<DashboardLayout />}>
-          {/* Member 2 will drop their overview analytical panels component here */}
-          <Route
-            path="/dashboard"
-            element={
-              <div className="p-4 text-slate-400">
-                [Member 2 Analytics Workspace Viewport]
-              </div>
-            }
-          />
+          {/* Member 2 Analytics Workspace */}
+          <Route path="/dashboard" element={<AnalyticsDashboard />} />
 
           {/* Member 3 will inject their refactoring issues component matrix grid right here */}
           <Route
