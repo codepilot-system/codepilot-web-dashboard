@@ -8,7 +8,7 @@ export const api = axios.create({
   },
 });
 
-// Request Interceptor: Systematically inject bearer security header keys
+// Request Interceptor
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem("accessToken");
@@ -20,7 +20,7 @@ api.interceptors.request.use(
   (error) => Promise.reject(error),
 );
 
-// Response Interceptor: Listens for 401 token invalidation challenges
+// Response Interceptor
 api.interceptors.response.use(
   (response) => response,
   async (error) => {

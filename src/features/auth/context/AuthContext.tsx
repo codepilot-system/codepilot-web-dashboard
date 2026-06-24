@@ -28,11 +28,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   }, []);
 
   const triggerGithubOAuth = async () => {
+    console.log("🚀 BUTTON CLICKED! triggerGithubOAuth has been invoked."); // 👈 ADD THIS LINE
     try {
       const response = await api.get("/auth/github-url");
+      console.log("Backend response received:", response.data);
       const { url } = response.data.data;
       window.location.href = url;
-    } catch (err) {
+    } catch (err: any) {
       console.error(
         "Failed to capture remote application handoff redirect path:",
         err,
