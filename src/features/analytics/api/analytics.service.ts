@@ -1,118 +1,219 @@
-// import { api } from "../../../shared/api/axiosClient";
-// import {
-//   AnalyticsRange,
-//   DebtTrendsRaw,
-//   LanguageBreakdownRaw,
-//   RepoOverviewRaw,
-// } from "../../../shared/types/analytics.types";
+// // // import { api } from "../../../shared/api/axiosClient";
+// // // import {
+// // //   AnalyticsRange,
+// // //   DebtTrendsRaw,
+// // //   LanguageBreakdownRaw,
+// // //   RepoOverviewRaw,
+// // // } from "../../../shared/types/analytics.types";
 
-// // -------------------------------------------------------------
-// // Analytics REST surface
-// // Backend contract (agreed between web + backend teams):
-// //   GET  /analytics/:repoId/overview              -> RepoOverviewRaw
-// //   GET  /analytics/:repoId/debt-trends?range=30d -> DebtTrendsRaw
-// //   GET  /analytics/:repoId/language-breakdown    -> LanguageBreakdownRaw
+// // // // -------------------------------------------------------------
+// // // // Analytics REST surface
+// // // // Backend contract (agreed between web + backend teams):
+// // // //   GET  /analytics/:repoId/overview              -> RepoOverviewRaw
+// // // //   GET  /analytics/:repoId/debt-trends?range=30d -> DebtTrendsRaw
+// // // //   GET  /analytics/:repoId/language-breakdown    -> LanguageBreakdownRaw
+// // // //
+// // // // All envelopes use the standard `{ data: T }` shape that axiosClient
+// // // // expects, so we strip it once here and return T to the hook layer.
+// // // // -------------------------------------------------------------
+
+// // // export const fetchRepoOverview = async (
+// // //   repoId: string,
+// // // ): Promise<RepoOverviewRaw> => {
+// // //   const response = await api.get(`/analytics/${repoId}/overview`);
+// // //   return response.data.data as RepoOverviewRaw;
+// // // };
+
+// // // export const fetchDebtTrends = async (
+// // //   repoId: string,
+// // //   range: AnalyticsRange = "30d",
+// // // ): Promise<DebtTrendsRaw> => {
+// // //   const response = await api.get(`/analytics/${repoId}/debt-trends`, {
+// // //     params: { range },
+// // //   });
+// // //   return response.data.data as DebtTrendsRaw;
+// // // };
+
+// // // export const fetchLanguageBreakdown = async (
+// // //   repoId: string,
+// // // ): Promise<LanguageBreakdownRaw> => {
+// // //   const response = await api.get(`/analytics/${repoId}/language-breakdown`);
+// // //   return response.data.data as LanguageBreakdownRaw;
+// // // };
+// // import { api } from "../../../shared/api/axiosClient";
+
+
+// // export const getAnalytics = async (
+// //  projectId:number,
+// //  scanId?:number
+// // )=>{
+
+// //  const response = await api.get("/analytics",{
+// //    params:{
+// //     projectId,
+// //     scanId
+// //    }
+// //  });
+
+
+// //  return response.data;
+
+// // };
+
+
+
+// // export const getScans = async (
+// //  projectId:number
+// // )=>{
+
+// //  const response = await api.get("/scans",{
+// //    params:{
+// //     projectId
+// //    }
+// //  });
+
+
+// //  return response.data;
+
+// // };
+
+
+
+// // export const startScan = async (
+// //  projectId:number,
+// //  branchName:string="main"
+// // )=>{
+
+
+// // const response = await api.post(
+// //  "/scans",
+// //  {
+// //   projectId,
+// //   branchName
+// //  }
+// // );
+
+
+// // return response.data;
+
+
+// // };
+
+
+
+// // export const getReport = async (
+// //  scanId:number
+// // )=>{
+
+// // const response = await api.get(
+// //  `/scans/${scanId}/report`,
+// //  {
+// //   responseType:"blob"
+// //  }
+// // );
+
+
+// // return response.data;
+
+// // };
+
+// // src/features/analytics/api/analytics.service.ts
 // //
-// // All envelopes use the standard `{ data: T }` shape that axiosClient
-// // expects, so we strip it once here and return T to the hook layer.
-// // -------------------------------------------------------------
+// // Maps to backend routes:
+// //   GET  /api/analytics?projectId=N&scanId=N  → AnalyticsResponse
+// //   GET  /api/scans?projectId=N               → ScansResponse
+// //   POST /api/scans                           → { data: ScanRecord }
+// //   GET  /api/scans/:scanId/report            → Blob (PDF)
 
-// export const fetchRepoOverview = async (
-//   repoId: string,
-// ): Promise<RepoOverviewRaw> => {
-//   const response = await api.get(`/analytics/${repoId}/overview`);
-//   return response.data.data as RepoOverviewRaw;
-// };
+// import { api } from "../../../shared/api/axiosClient";
+// import type { AnalyticsResponse, ScansResponse } from "../../../shared/types/analytics.types";
 
-// export const fetchDebtTrends = async (
-//   repoId: string,
-//   range: AnalyticsRange = "30d",
-// ): Promise<DebtTrendsRaw> => {
-//   const response = await api.get(`/analytics/${repoId}/debt-trends`, {
-//     params: { range },
+// // ── GET /analytics?projectId=N[&scanId=N] ──────────────────────────────────
+// export const getAnalytics = async (
+//   projectId: number,
+//   scanId?: number,
+// ): Promise<AnalyticsResponse> => {
+//   const response = await api.get("/analytics", {
+//     params: { projectId, ...(scanId !== undefined && { scanId }) },
 //   });
-//   return response.data.data as DebtTrendsRaw;
+//   return response.data;
 // };
 
-// export const fetchLanguageBreakdown = async (
-//   repoId: string,
-// ): Promise<LanguageBreakdownRaw> => {
-//   const response = await api.get(`/analytics/${repoId}/language-breakdown`);
-//   return response.data.data as LanguageBreakdownRaw;
+// // ── GET /scans?projectId=N ─────────────────────────────────────────────────
+// export const getScans = async (
+//   projectId: number,
+// ): Promise<ScansResponse> => {
+//   const response = await api.get("/scans", {
+//     params: { projectId },
+//   });
+//   return response.data;
 // };
+
+// // ── POST /scans ────────────────────────────────────────────────────────────
+// export const startScan = async (
+//   projectId: number,
+//   branchName: string = "main",
+// ): Promise<{ status: string; data: any }> => {
+//   const response = await api.post("/scans", { projectId, branchName });
+//   return response.data;
+// };
+
+// // ── GET /scans/:scanId/report (returns PDF blob) ───────────────────────────
+// export const getScanReport = async (scanId: number): Promise<Blob> => {
+//   const response = await api.get(`/scans/${scanId}/report`, {
+//     responseType: "blob",
+//   });
+//   return response.data;
+// };
+
+
+// src/features/analytics/api/analytics.service.ts
+//
+// Maps to backend routes:
+//   GET  /api/analytics?projectId=N&scanId=N  → AnalyticsResponse
+//   GET  /api/scans?projectId=N               → ScansResponse
+//   POST /api/scans                           → { data: ScanRecord }
+//   GET  /api/scans/:scanId/report            → Blob (PDF)
+
 import { api } from "../../../shared/api/axiosClient";
+import type { AnalyticsResponse, ScansResponse } from "../../../shared/types/analytics.types";
 
-
+// ── GET /analytics?projectId=N[&scanId=N] ──────────────────────────────────
 export const getAnalytics = async (
- projectId:number,
- scanId?:number
-)=>{
-
- const response = await api.get("/analytics",{
-   params:{
-    projectId,
-    scanId
-   }
- });
-
-
- return response.data;
-
+  projectId: number,
+  scanId?: number,
+): Promise<AnalyticsResponse> => {
+  const response = await api.get("/analytics", {
+    params: { projectId, ...(scanId !== undefined && { scanId }) },
+  });
+  return response.data;
 };
 
-
-
+// ── GET /scans?projectId=N ─────────────────────────────────────────────────
 export const getScans = async (
- projectId:number
-)=>{
-
- const response = await api.get("/scans",{
-   params:{
-    projectId
-   }
- });
-
-
- return response.data;
-
+  projectId: number,
+): Promise<ScansResponse> => {
+  const response = await api.get("/scans", {
+    params: { projectId },
+  });
+  return response.data;
 };
 
-
-
+// ── POST /scans ────────────────────────────────────────────────────────────
 export const startScan = async (
- projectId:number,
- branchName:string="main"
-)=>{
+  projectId: number,
+  branchName: string = "main",
+): Promise<{ status: string; data: any }> => {
+  const response = await api.post("/scans", { projectId, branchName });
+  return response.data;
+};
 
-
-const response = await api.post(
- "/scans",
- {
-  projectId,
-  branchName
- }
-);
-
-
-return response.data;
-
-
+// ── GET /scans/:scanId/report (returns PDF blob) ───────────────────────────
+export const getScanReport = async (scanId: number): Promise<Blob> => {
+  const response = await api.get(`/scans/${scanId}/report`, {
+    responseType: "blob",
+  });
+  return response.data;
 };
 
 
-
-export const getReport = async (
- scanId:number
-)=>{
-
-const response = await api.get(
- `/scans/${scanId}/report`,
- {
-  responseType:"blob"
- }
-);
-
-
-return response.data;
-
-};

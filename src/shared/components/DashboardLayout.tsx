@@ -29,6 +29,12 @@ export const DashboardLayout: React.FC = () => {
             >
               Issues Registry
             </Link>
+            <Link
+              to="/reports"
+              className="hover:text-slate-200 transition-colors"
+            >
+              Reports
+            </Link>
           </nav>
         </div>
 

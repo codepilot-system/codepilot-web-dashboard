@@ -2,7 +2,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { io, Socket } from 'socket.io-client'
 
-const WS_URL = import.meta.env.VITE_WS_URL ?? 'http://localhost:3000'
+const WS_URL = import.meta.env.VITE_WS_URL ?? 'http://localhost:5000'
 
 /**
  * Connects to the backend scan notification server and drives a live
