@@ -11,6 +11,10 @@ export type IssueSeverity =
   | 'MEDIUM'
   | 'HIGH'
   | 'CRITICAL'
+
+export type IssueSource =
+  | 'ANALYZER'
+  | 'AI'
 export interface IssueFilters {
   projectId: string
   page?: number
@@ -20,18 +24,39 @@ export interface IssueFilters {
   category?: string
   search?: string
 }
+// export interface Issue {
+//   id: string
+//   title: string
+//   filePath: string
+//   lineNumber: number
+//   severity: IssueSeverity
+//   source: IssueSource
+//   category: string
+//   status: IssueStatus
+//   impactScore: number
+//   aiExplanation?: string
+//   architecturalImpact?: string
+//   lastAnalyzedAt?: string
+//   suggestions: Suggestion[]
+// }
 export interface Issue {
-  id: string
-  title: string
+  id: number
+  projectId: number
+  scanId: number
+
   filePath: string
   lineNumber: number
+
   severity: IssueSeverity
   category: string
   status: IssueStatus
-  impactScore: number
-  aiExplanation?: string
-  architecturalImpact?: string
-  lastAnalyzedAt?: string
+  source: IssueSource
+
+  summary: string
+  explanation: string
+  codeSnippet: string | null
+  detectedAt: string
+
   suggestions: Suggestion[]
 }
 
@@ -67,7 +92,7 @@ export const issuesService = {
     return data.data
   },
 
-  async applyPatch(issueId: string): Promise<void> {
-    await api.post(`/issues/${issueId}/apply`)
-  },
+ async applySuggestion(suggestionId: number): Promise<void> {
+  await api.post(`/suggestions/${suggestionId}/apply`)
+}
 }

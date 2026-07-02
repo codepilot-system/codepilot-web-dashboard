@@ -62,3 +62,9 @@
   white-space: pre;
   color: #334155;
 }
+
+/* ── Dark theme overrides ────────────────────────────────────── */
+.dark .diff-line-number { color: #475569; }
+.dark .diff-content { color: #CBD5E1; }
+.dark .diff-line--added   { background: rgba(34, 197, 94, 0.12); }
+.dark .diff-line--removed { background: rgba(239, 68, 68, 0.12); }

@@ -108,13 +108,15 @@
 .issues-table-wrapper {
   border: 1px solid #E2E8F0;
   border-radius: 8px;
-  overflow: hidden;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .issues-table {
   width: 100%;
   border-collapse: collapse;
   font-size: 13px;
+  min-width: 640px;
 }
 
 /* ── Table head ──────────────────────────────────────────────── */
@@ -236,6 +238,8 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
   margin-top: 1rem;
   font-size: 13px;
   color: #64748B;
@@ -244,7 +248,15 @@
 .issues-pagination-controls {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 4px;
+}
+
+.issues-page-ellipsis {
+  padding: 4px 6px;
+  color: #94A3B8;
+  font-size: 13px;
+  user-select: none;
 }
 
 .issues-page-btn {
@@ -272,3 +284,127 @@
   color: #fff;
   border-color: #2563EB;
 }
+
+/* ── Responsive ──────────────────────────────────────────────── */
+@media (max-width: 640px) {
+  .issues-page {
+    padding: 1rem 1rem;
+  }
+
+  .issues-filters {
+    flex-direction: column;
+  }
+
+  .issues-search,
+  .issues-select {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .issues-pagination {
+    flex-direction: column;
+    align-items: stretch;
+    text-align: center;
+  }
+
+  .issues-pagination-controls {
+    justify-content: center;
+  }
+}
+
+/* ── Dark theme overrides ────────────────────────────────────── */
+.dark .issues-sync-banner {
+  background: rgba(37, 99, 235, 0.15);
+  color: #93C5FD;
+}
+
+.dark .issues-heading {
+  color: #F1F5F9;
+}
+
+.dark .issues-subheading,
+.dark .issues-empty-state,
+.dark .issues-loading {
+  color: #94A3B8;
+}
+
+.dark .issues-search,
+.dark .issues-select {
+  background: #161B22;
+  border-color: #1E293B;
+  color: #CBD5E1;
+}
+
+.dark .issues-select {
+  background: #161B22;
+}
+
+.dark .issues-table-wrapper {
+  border-color: #1E293B;
+}
+
+.dark .issues-table thead {
+  background: #161B22;
+  border-bottom-color: #1E293B;
+}
+
+.dark .issues-table th {
+  color: #64748B;
+}
+
+.dark .issues-table tbody tr {
+  border-bottom-color: #1E293B;
+}
+
+.dark .issues-table tbody tr:hover {
+  background: rgba(148, 163, 184, 0.06);
+}
+
+.dark .issues-title {
+  color: #F1F5F9;
+}
+
+.dark .issues-status {
+  border-color: #1E293B;
+  color: #94A3B8;
+}
+
+.dark .issues-status--dismissed {
+  color: #475569;
+  border-color: #1E293B;
+}
+
+.dark .issues-action-btn {
+  color: #475569;
+}
+
+.dark .issues-action-btn:hover {
+  color: #CBD5E1;
+  background: rgba(148, 163, 184, 0.1);
+}
+
+.dark .issues-pagination {
+  color: #94A3B8;
+}
+
+.dark .issues-page-btn {
+  background: #161B22;
+  border-color: #1E293B;
+  color: #CBD5E1;
+}
+
+.dark .issues-page-btn:hover:not(:disabled) {
+  background: rgba(148, 163, 184, 0.08);
+}
+
+.dark .issues-page-btn--active {
+  background: #2563EB;
+  color: #fff;
+  border-color: #2563EB;
+}
+
+/* Severity badges — slightly translucent on dark backgrounds */
+.dark .issues-badge--CRITICAL { background: rgba(239, 68, 68, 0.15); color: #FCA5A5; }
+.dark .issues-badge--HIGH     { background: rgba(245, 158, 11, 0.15); color: #FCD34D; }
+.dark .issues-badge--MEDIUM   { background: rgba(37, 99, 235, 0.15); color: #93C5FD; }
+.dark .issues-badge--LOW      { background: rgba(34, 197, 94, 0.15); color: #86EFAC; }

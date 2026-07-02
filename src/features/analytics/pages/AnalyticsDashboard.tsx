@@ -275,14 +275,14 @@ const StatCard: React.FC<{
   icon: string;
   iconBg: string;
 }> = ({ label, value, sub, subHighlight, icon, iconBg }) => (
-  <div className="rounded-2xl border border-slate-800 bg-slate-900/40 p-5 flex items-start justify-between">
+  <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#161b22] p-5 flex items-start justify-between">
     <div>
-      <p className="text-xs text-slate-400 mb-2">{label}</p>
-      <p className="text-3xl font-black text-slate-100 leading-none">{value}</p>
+      <p className="text-xs text-slate-500 dark:text-slate-400 mb-2">{label}</p>
+      <p className="text-3xl font-black text-slate-900 dark:text-white leading-none">{value}</p>
       {sub && (
-        <p className="mt-2 text-xs text-slate-500">
+        <p className="mt-2 text-xs text-slate-400 dark:text-slate-500">
           {subHighlight && (
-            <span className="text-emerald-400 font-semibold">{subHighlight} </span>
+            <span className="text-emerald-500 dark:text-emerald-400 font-semibold">{subHighlight} </span>
           )}
           {sub}
         </p>
@@ -295,8 +295,8 @@ const StatCard: React.FC<{
 );
 
 const Panel: React.FC<{ title: string; children: React.ReactNode }> = ({ title, children }) => (
-  <section className="rounded-2xl border border-slate-800 bg-slate-900/40 p-5">
-    <h2 className="text-sm font-bold text-slate-100 mb-4">{title}</h2>
+  <section className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#161b22] p-5">
+    <h2 className="text-sm font-bold text-slate-900 dark:text-white mb-4">{title}</h2>
     {children}
   </section>
 );
@@ -311,8 +311,8 @@ const AnalyticsDashboard: React.FC = () => {
 
   if (!activeProject) {
     return (
-      <div className="rounded-2xl border border-slate-800 bg-slate-900/40 p-12 text-center">
-        <p className="text-slate-400 text-sm">
+      <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#161b22] p-12 text-center">
+        <p className="text-slate-500 dark:text-slate-400 text-sm">
           Select a project from the dropdown to view analytics.
         </p>
       </div>
@@ -322,15 +322,15 @@ const AnalyticsDashboard: React.FC = () => {
   if (isLoading) {
     return (
       <div className="space-y-6 animate-pulse">
-        <div className="h-7 w-36 bg-slate-800 rounded-lg" />
+        <div className="h-7 w-36 bg-slate-200 dark:bg-slate-800 rounded-lg" />
         <div className="grid grid-cols-4 gap-4">
           {[...Array(4)].map((_, i) => (
-            <div key={i} className="h-28 bg-slate-800 rounded-2xl" />
+            <div key={i} className="h-28 bg-slate-200 dark:bg-slate-800 rounded-2xl" />
           ))}
         </div>
         <div className="grid grid-cols-2 gap-4">
-          <div className="h-80 bg-slate-800 rounded-2xl" />
-          <div className="h-80 bg-slate-800 rounded-2xl" />
+          <div className="h-80 bg-slate-200 dark:bg-slate-800 rounded-2xl" />
+          <div className="h-80 bg-slate-200 dark:bg-slate-800 rounded-2xl" />
         </div>
       </div>
     );
@@ -356,11 +356,11 @@ const AnalyticsDashboard: React.FC = () => {
     <div className="space-y-6">
       {/* ── Header ── */}
       <div>
-        <p className="text-xs uppercase tracking-wider text-slate-500">Analytics</p>
-        <h1 className="mt-1 text-2xl font-black text-slate-100">
+        <p className="text-xs uppercase tracking-wider text-slate-400 dark:text-slate-500">Analytics</p>
+        <h1 className="mt-1 text-2xl font-black text-slate-900 dark:text-white">
           {activeProject.repoName}
         </h1>
-        <p className="text-xs text-slate-500 mt-0.5">
+        <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
           Track your codebase health and refactoring progress
         </p>
       </div>
@@ -519,17 +519,17 @@ const AnalyticsDashboard: React.FC = () => {
                 const pct = total === 0 ? 0 : (week.accepted / maxWeekTotal) * 100;
                 return (
                   <div key={week.week} className="flex items-center gap-3">
-                    <span className="text-xs text-slate-400 w-14 flex-shrink-0">{week.week}</span>
-                    <div className="flex-1 h-2 bg-slate-800 rounded-full overflow-hidden">
+                    <span className="text-xs text-slate-500 dark:text-slate-400 w-14 flex-shrink-0">{week.week}</span>
+                    <div className="flex-1 h-2 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
                       <div
-                        className="h-full bg-violet-500 rounded-full transition-all duration-500"
+                        className="h-full bg-blue-500 rounded-full transition-all duration-500"
                         style={{ width: `${pct}%` }}
                       />
                     </div>
-                    <span className="text-xs text-slate-400 w-20 text-right flex-shrink-0">
+                    <span className="text-xs text-slate-500 dark:text-slate-400 w-20 text-right flex-shrink-0">
                       {week.accepted} completed
                       {week.rejected > 0 && (
-                        <span className="text-rose-400 ml-1">/ {week.rejected} failed</span>
+                        <span className="text-rose-500 dark:text-rose-400 ml-1">/ {week.rejected} failed</span>
                       )}
                     </span>
                   </div>
@@ -548,10 +548,10 @@ const AnalyticsDashboard: React.FC = () => {
                   className="w-2.5 h-2.5 rounded-full flex-shrink-0"
                   style={{ background: slice.color }}
                 />
-                <span className="text-xs text-slate-300 w-16 flex-shrink-0">
+                <span className="text-xs text-slate-600 dark:text-slate-300 w-16 flex-shrink-0">
                   {slice.label}
                 </span>
-                <div className="flex-1 h-2 bg-slate-800 rounded-full overflow-hidden">
+                <div className="flex-1 h-2 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
                   <div
                     className="h-full rounded-full transition-all duration-500"
                     style={{
@@ -563,7 +563,7 @@ const AnalyticsDashboard: React.FC = () => {
                 <span className="text-xs font-bold w-10 text-right flex-shrink-0" style={{ color: slice.color }}>
                   {slice.count}
                 </span>
-                <span className="text-xs text-slate-500 w-12 text-right flex-shrink-0">
+                <span className="text-xs text-slate-400 dark:text-slate-500 w-12 text-right flex-shrink-0">
                   {slice.percent.toFixed(1)}%
                 </span>
               </div>

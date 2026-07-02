@@ -33,12 +33,12 @@ const StatCard: React.FC<{
   valueClass?: string;
   icon: string;
   iconBg: string;
-}> = ({ label, value, sub, valueClass = "text-slate-100", icon, iconBg }) => (
-  <div className="rounded-2xl border border-slate-800 bg-slate-900/40 p-5 flex items-start justify-between">
+}> = ({ label, value, sub, valueClass = "text-slate-900 dark:text-white", icon, iconBg }) => (
+  <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#161b22] p-5 flex items-start justify-between">
     <div>
-      <p className="text-xs text-slate-400 mb-2">{label}</p>
+      <p className="text-xs text-slate-500 dark:text-slate-400 mb-2">{label}</p>
       <p className={`text-3xl font-black leading-none ${valueClass}`}>{value}</p>
-      {sub && <p className="mt-2 text-xs text-slate-500">{sub}</p>}
+      {sub && <p className="mt-2 text-xs text-slate-400 dark:text-slate-500">{sub}</p>}
     </div>
     <div className={`w-10 h-10 rounded-xl flex items-center justify-center text-lg ${iconBg}`}>
       {icon}
@@ -51,9 +51,9 @@ const Panel: React.FC<{
   right?: React.ReactNode;
   children: React.ReactNode;
 }> = ({ title, right, children }) => (
-  <section className="rounded-2xl border border-slate-800 bg-slate-900/40 p-5">
+  <section className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#161b22] p-5">
     <div className="flex items-center justify-between mb-4">
-      <h2 className="text-sm font-bold text-slate-100">{title}</h2>
+      <h2 className="text-sm font-bold text-slate-900 dark:text-white">{title}</h2>
       {right}
     </div>
     {children}
@@ -101,8 +101,8 @@ export const OverviewPage: React.FC = () => {
 
   if (!activeProject) {
     return (
-      <div className="rounded-2xl border border-slate-800 bg-slate-900/40 p-12 text-center">
-        <p className="text-slate-400 text-sm">
+      <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#161b22] p-12 text-center">
+        <p className="text-slate-500 dark:text-slate-400 text-sm">
           Select a project from the dropdown to view its overview.
         </p>
       </div>
@@ -112,15 +112,15 @@ export const OverviewPage: React.FC = () => {
   if (isLoading) {
     return (
       <div className="space-y-6 animate-pulse">
-        <div className="h-8 w-64 bg-slate-800 rounded-lg" />
+        <div className="h-8 w-64 bg-slate-200 dark:bg-slate-800 rounded-lg" />
         <div className="grid grid-cols-4 gap-4">
           {[...Array(4)].map((_, i) => (
-            <div key={i} className="h-28 bg-slate-800 rounded-2xl" />
+            <div key={i} className="h-28 bg-slate-200 dark:bg-slate-800 rounded-2xl" />
           ))}
         </div>
         <div className="grid grid-cols-2 gap-4">
-          <div className="h-80 bg-slate-800 rounded-2xl" />
-          <div className="h-80 bg-slate-800 rounded-2xl" />
+          <div className="h-80 bg-slate-200 dark:bg-slate-800 rounded-2xl" />
+          <div className="h-80 bg-slate-200 dark:bg-slate-800 rounded-2xl" />
         </div>
       </div>
     );
@@ -152,7 +152,7 @@ export const OverviewPage: React.FC = () => {
       <div className="flex items-start justify-between">
         <div>
           <div className="flex items-center gap-2 mb-1">
-            <h1 className="text-2xl font-black text-slate-100">
+            <h1 className="text-2xl font-black text-slate-900 dark:text-white">
               {activeProject.repoName}
             </h1>
             {latestScan && <ScanStatusBadge status={latestScan.status} />}
@@ -165,7 +165,7 @@ export const OverviewPage: React.FC = () => {
           <select
             value={branch}
             onChange={(e) => setBranch(e.target.value)}
-            className="text-xs bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-slate-300 focus:outline-none focus:border-violet-500"
+            className="text-xs bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-slate-600 dark:text-slate-300 focus:outline-none focus:border-blue-500"
           >
             <option value="main">main</option>
             <option value="develop">develop</option>
@@ -174,14 +174,14 @@ export const OverviewPage: React.FC = () => {
           <button
             onClick={handleRescan}
             disabled={startScan.isPending || latestScan?.status === "IN_PROGRESS"}
-            className="inline-flex items-center gap-2 border border-slate-700 bg-slate-900 rounded-xl px-4 py-2 text-sm font-semibold text-slate-200 hover:bg-slate-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="inline-flex items-center gap-2 border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 rounded-xl px-4 py-2 text-sm font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <span className={startScan.isPending ? "animate-spin" : ""}>↺</span>
             {startScan.isPending ? "Scanning…" : "Rescan"}
           </button>
           <a
             href="/issues"
-            className="inline-flex items-center gap-2 bg-violet-600 hover:bg-violet-500 transition-colors rounded-xl px-4 py-2 text-sm font-semibold text-white"
+            className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-500 transition-colors rounded-xl px-4 py-2 text-sm font-semibold text-white"
           >
             View Issues ↗
           </a>
@@ -321,7 +321,7 @@ export const OverviewPage: React.FC = () => {
         <Panel
           title="Top Issues"
           right={
-            <a href="/issues" className="text-xs text-violet-400 hover:text-violet-300 font-medium">
+            <a href="/issues" className="text-xs text-blue-600 dark:text-blue-400 hover:text-blue-500 dark:hover:text-blue-300 font-medium">
               View All →
             </a>
           }
@@ -341,14 +341,14 @@ export const OverviewPage: React.FC = () => {
                 };
                 const color = severityColor[issue.severity] ?? "#6b7280";
                 return (
-                  <div key={issue.id} className="flex items-center gap-3 py-2 border-b border-slate-800 last:border-0">
-                    <span className="text-xs text-slate-500 w-5 font-bold">#{i + 1}</span>
-                    <div className="w-7 h-7 rounded-md bg-slate-800 flex items-center justify-center text-xs">
+                  <div key={issue.id} className="flex items-center gap-3 py-2 border-b border-slate-200 dark:border-slate-800 last:border-0">
+                    <span className="text-xs text-slate-400 dark:text-slate-500 w-5 font-bold">#{i + 1}</span>
+                    <div className="w-7 h-7 rounded-md bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-xs">
                       📄
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-xs font-mono text-slate-200 truncate">{issue.filePath}</p>
-                      <p className="text-xs text-slate-500 mt-0.5">Line {issue.lineNumber} · {issue.category}</p>
+                      <p className="text-xs font-mono text-slate-700 dark:text-slate-200 truncate">{issue.filePath}</p>
+                      <p className="text-xs text-slate-400 dark:text-slate-500 mt-0.5">Line {issue.lineNumber} · {issue.category}</p>
                     </div>
                     <div className="flex-shrink-0 w-20">
                       <div
@@ -367,37 +367,37 @@ export const OverviewPage: React.FC = () => {
         </Panel>
 
         {/* AI Refactoring Insight (latest scan info) */}
-        <div className="rounded-2xl border border-violet-500/20 bg-violet-500/10 p-5 flex flex-col gap-4">
+        <div className="rounded-2xl border border-blue-500/20 bg-blue-500/5 dark:bg-blue-500/10 p-5 flex flex-col gap-4">
           <div className="flex items-center gap-2">
-            <span className="text-violet-400">✦</span>
-            <span className="text-sm font-bold text-violet-300">AI Refactoring Insight</span>
+            <span className="text-blue-500 dark:text-blue-400">✦</span>
+            <span className="text-sm font-bold text-blue-600 dark:text-blue-300">AI Refactoring Insight</span>
           </div>
           {overview.avgComplexity > 0 ? (
             <>
-              <p className="text-sm text-violet-200 italic leading-relaxed">
+              <p className="text-sm text-slate-700 dark:text-blue-200 italic leading-relaxed">
                 "Your codebase shows an average cyclomatic complexity of{" "}
-                <strong className="text-violet-100 not-italic">{overview.avgComplexity.toFixed(1)}</strong>.
+                <strong className="text-slate-900 dark:text-blue-100 not-italic">{overview.avgComplexity.toFixed(1)}</strong>.
                 {overview.criticalIssues > 0
                   ? ` There are ${overview.criticalIssues} critical issues that need immediate attention — address those first to reduce overall risk.`
                   : " Consider splitting large functions and extracting reusable utilities to lower complexity further."}
               </p>
-              <p className="text-xs text-slate-400 leading-relaxed">
+              <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
                 Addressing high-complexity files can reduce cognitive load by up to{" "}
-                <strong className="text-violet-300">40%</strong> and significantly improve testability.
+                <strong className="text-blue-600 dark:text-blue-300">40%</strong> and significantly improve testability.
               </p>
             </>
           ) : (
-            <p className="text-sm text-slate-400 italic">
+            <p className="text-sm text-slate-500 dark:text-slate-400 italic">
               Run a scan to get AI-powered refactoring insights for this project.
             </p>
           )}
           <div className="flex gap-3 mt-auto">
-            <button className="flex-1 py-2 rounded-xl border border-slate-700 bg-slate-900 text-xs font-semibold text-slate-300 hover:bg-slate-800 transition-colors">
+            <button className="flex-1 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
               Dismiss
             </button>
             <a
               href="/issues"
-              className="flex-2 flex-1 py-2 rounded-xl bg-violet-600 hover:bg-violet-500 transition-colors text-xs font-semibold text-white text-center"
+              className="flex-2 flex-1 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 transition-colors text-xs font-semibold text-white text-center"
             >
               View Issues
             </a>
