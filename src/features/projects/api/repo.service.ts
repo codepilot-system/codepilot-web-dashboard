@@ -1,9 +1,5 @@
 import { api } from "../../../shared/api/axiosClient";
 
-/**
- * 1. Discover/Search Repositories (Used by useGithubRepos)
- * Maps to: GET /api/projects/discover?search=...
- */
 export const fetchAvailableGithubRepos = async (
   search: string,
   page: number,

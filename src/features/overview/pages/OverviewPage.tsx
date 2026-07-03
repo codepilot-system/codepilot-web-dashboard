@@ -1,10 +1,3 @@
-// src/features/overview/pages/OverviewPage.tsx
-//
-// The repo detail page (Image 3 / Image 6 in your screenshots).
-// Shows: 4 stat cards, Issues by Severity donut, Complexity Trend line,
-//        Top 3 Most Complex Files (from issues), AI Refactoring Insight.
-// Connects to: GET /analytics, GET /scans, POST /scans
-
 import React, { useState } from "react";
 import {
   PieChart,

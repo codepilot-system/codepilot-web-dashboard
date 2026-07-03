@@ -1,10 +1,3 @@
-// src/features/reports/pages/ReportsPage.tsx
-//
-// Reports page (Image 1 / Image 4 in your screenshots).
-// Shows: Report Configuration checklist, Preview panel with health score,
-//        issues summary, top recommendations, and Download PDF button.
-// Connects to: GET /analytics, GET /scans, GET /scans/:id/report (PDF blob)
-
 import React, { useState } from "react";
 import { useProject } from "../../projects/context/ProjectContext";
 import { useReportSummary } from "../../analytics/hooks/useAnalyticsData";

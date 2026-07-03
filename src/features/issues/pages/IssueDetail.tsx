@@ -30,15 +30,6 @@ export default function IssueDetail() {
     queryClient.invalidateQueries({ queryKey: ['reportSummary'] })
   }
 
-  // const applyMutation = useMutation({
-  //   mutationFn: () => issuesService.applyPatch(issueId!),
-  //   onSuccess: () => {
-  //     queryClient.invalidateQueries({ queryKey: ['repoIssues'] })
-  //     queryClient.invalidateQueries({ queryKey: ['issue', issueId] })
-  //     navigate('/issues')
-  //   },
-  // })
-
   const applyMutation = useMutation({
 mutationFn: () => {
   if (!suggestion) {
@@ -181,24 +172,6 @@ mutationFn: () => {
                     ? 'Updating...'
                     : 'Mark Fixed'}
                 </button>
-
-                {/* <button
-                  className="detail-btn detail-btn--primary"
-                  onClick={() => applyMutation.mutate()}
-                  disabled={applyMutation.isPending}
-                >
-                  {applyMutation.isPending
-                    ? 'Applying...'
-                    : 'Approve & Commit'}
-                </button> */}
-                {/* {issue.source === 'AI' && issue.suggestions.length > 0 && (
-                <button
-                  onClick={() => applyMutation.mutate()}
-                  disabled={applyMutation.isPending}
-                >
-                  {applyMutation.isPending ? 'Applying...' : 'Approve & Commit'}
-                </button>
-              )} */}
               {issue.source === 'AI' && suggestion && (
                 <button
                   className="detail-btn detail-btn--primary"

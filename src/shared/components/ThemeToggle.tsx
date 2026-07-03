@@ -1,15 +1,8 @@
-// src/shared/components/ThemeToggle.tsx
-//
-// A small sun/moon button to switch between light and dark themes.
-// Works anywhere inside the ThemeProvider.
-
 import React from "react";
 import { useTheme } from "../context/ThemeContext";
 
 interface ThemeToggleProps {
-  /** Optional extra classes for positioning. */
   className?: string;
-  /** Show a text label next to the icon (used in the vertical sidebar). */
   withLabel?: boolean;
 }
 

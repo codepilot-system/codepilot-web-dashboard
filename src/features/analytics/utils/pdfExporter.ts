@@ -8,12 +8,7 @@ import {
   DebtTrendPoint,
 } from "../../../shared/types/analytics.types";
 
-// ===============================================================
-// Client-side Reporting Engine
-// Reads the in-memory state of running TanStack queries plus a DOM
-// snapshot of the rendered charts, then compiles everything into a
-// printable PDF using jsPDF + jspdf-autotable + html2canvas.
-// ===============================================================
+
 
 interface ExportPayload {
   overview: OverviewSummary;

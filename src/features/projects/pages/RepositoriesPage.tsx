@@ -1,16 +1,3 @@
-// src/features/projects/pages/RepositoriesPage.tsx
-//
-// Matches Image 7 (light) / Image 14 (dark) — Repositories listing page.
-// Shows: 4 stat cards at top, 2-column repo grid below.
-// Each repo card has: name, owner/path, language badge, description,
-//   issue count + critical count, last scan time, Debt Score + label,
-//   "Scan" button, "View →" button (navigates to /dashboard with that project active)
-//
-// Status mapping from backend discoverProjects():
-//   JOINED  → user is already a member  → show "View →" + "Scan"
-//   JOIN    → project exists but user not member → show "Join" button
-//   IMPORT  → not yet imported → show "Import" button
-
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";

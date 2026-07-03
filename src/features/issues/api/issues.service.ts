@@ -24,21 +24,6 @@ export interface IssueFilters {
   category?: string
   search?: string
 }
-// export interface Issue {
-//   id: string
-//   title: string
-//   filePath: string
-//   lineNumber: number
-//   severity: IssueSeverity
-//   source: IssueSource
-//   category: string
-//   status: IssueStatus
-//   impactScore: number
-//   aiExplanation?: string
-//   architecturalImpact?: string
-//   lastAnalyzedAt?: string
-//   suggestions: Suggestion[]
-// }
 export interface Issue {
   id: number
   projectId: number

@@ -1,10 +1,3 @@
-// src/features/landing/pages/LandingPage.tsx
-//
-// Public marketing landing page — the first page that introduces the product.
-// Matches "body.bg-background-light (1)" (dark) and "(2)" (light) from the
-// UI design folder. Keeps a TOP navbar (Features / Research / Pricing / Log in)
-// and supports both light and dark themes via the global theme toggle.
-
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../auth/context/AuthContext";

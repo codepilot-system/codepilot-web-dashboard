@@ -1,10 +1,3 @@
-// src/shared/context/ThemeContext.tsx
-//
-// Global light / dark theme manager for the whole site.
-// - Persists the choice in localStorage ("codepilot-theme").
-// - Falls back to the OS preference the first time.
-// - Toggles the `dark` class on <html>, which drives every `dark:` utility.
-
 import React, {
   createContext,
   useCallback,
