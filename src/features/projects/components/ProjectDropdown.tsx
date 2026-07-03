@@ -10,7 +10,6 @@ export const ProjectDropdown: React.FC = () => {
     queryKey: ["trackedProjects"],
     queryFn: async () => {
       const response = await api.get("/projects");
-      // Safely ensure data structure parsing context arrays layout allocation matching standard array responses
       return Array.isArray(response.data?.data) ? response.data.data : [];
     },
   });

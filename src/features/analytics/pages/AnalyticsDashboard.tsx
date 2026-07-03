@@ -1,253 +1,3 @@
-// // import React, { useRef, useState } from "react";
-// // import { useProject } from "../../projects/context/ProjectContext";
-// // import { useRepoOverview } from "../hooks/useRepoOverview";
-// // import { useDebtTrends } from "../hooks/useDebtTrends";
-// // import { useLanguageBreakdown } from "../hooks/useLanguageBreakdown";
-// // import { OverviewScorecards } from "../components/OverviewScorecards";
-// // import { DebtTrendsChart } from "../components/DebtTrendsChart";
-// // import { LanguageBreakdownChart } from "../components/LanguageBreakdownChart";
-// // import { SeverityDistributionChart } from "../components/SeverityDistributionChart";
-// // import { LanguageBreakdownTable } from "../components/LanguageBreakdownTable";
-// // import { RangeSelector } from "../components/RangeSelector";
-// // import { ExportReportButton } from "../components/ExportReportButton";
-// // import { AnalyticsRange } from "../../../shared/types/analytics.types";
-
-// // const Panel: React.FC<{
-// //   title: string;
-// //   subtitle?: string;
-// //   right?: React.ReactNode;
-// //   children: React.ReactNode;
-// // }> = ({ title, subtitle, right, children }) => (
-// //   <section className="rounded-2xl border border-slate-800 bg-slate-900/40 p-5">
-// //     <header className="mb-4 flex items-start justify-between gap-4">
-// //       <div>
-// //         <h2 className="text-base font-bold text-slate-100">{title}</h2>
-// //         {subtitle && (
-// //           <p className="mt-0.5 text-xs text-slate-500">{subtitle}</p>
-// //         )}
-// //       </div>
-// //       {right}
-// //     </header>
-// //     {children}
-// //   </section>
-// // );
-
-// // const InlineStatus: React.FC<{
-// //   loading: boolean;
-// //   error: unknown;
-// //   empty?: boolean;
-// //   emptyMessage?: string;
-// //   children: React.ReactNode;
-// // }> = ({ loading, error, empty, emptyMessage, children }) => {
-// //   if (loading) {
-// //     return (
-// //       <div className="flex h-48 items-center justify-center text-sm text-slate-500">
-// //         Loading…
-// //       </div>
-// //     );
-// //   }
-// //   if (error) {
-// //     return (
-// //       <div className="flex h-48 items-center justify-center text-sm text-rose-400">
-// //         Failed to load. Retry shortly.
-// //       </div>
-// //     );
-// //   }
-// //   if (empty) {
-// //     return (
-// //       <div className="flex h-48 items-center justify-center text-sm text-slate-500">
-// //         {emptyMessage ?? "No data."}
-// //       </div>
-// //     );
-// //   }
-// //   return <>{children}</>;
-// // };
-
-// // export const AnalyticsDashboard: React.FC = () => {
-// //   const { activeProject } = useProject();
-// //   const [range, setRange] = useState<AnalyticsRange>("30d");
-// //   const chartsRef = useRef<HTMLDivElement | null>(null);
-
-// //   const repoId = activeProject?.id;
-
-// //   const overviewQuery = useRepoOverview(repoId);
-// //   const trendsQuery = useDebtTrends(repoId, range);
-// //   const languageQuery = useLanguageBreakdown(repoId);
-
-// //   if (!activeProject) {
-// //     return (
-// //       <div className="rounded-2xl border border-slate-800 bg-slate-900/40 p-8 text-center text-sm text-slate-400">
-// //         Pick a project from the top-right dropdown to load its analytics
-// //         workspace.
-// //       </div>
-// //     );
-// //   }
-
-// //   return (
-// //     <div className="space-y-6">
-// //       <header className="flex flex-wrap items-end justify-between gap-4">
-// //         <div>
-// //           <p className="text-xs uppercase tracking-wider text-slate-500">
-// //             Analytics Overview
-// //           </p>
-// //           <h1 className="mt-1 text-2xl font-black text-slate-100">
-// //             {activeProject.name}
-// //           </h1>
-// //           <p className="mt-1 text-xs text-slate-500">
-// //             {activeProject.owner}/{activeProject.repoName}
-// //           </p>
-// //         </div>
-// //         <div className="flex items-center gap-3">
-// //           <RangeSelector value={range} onChange={setRange} />
-// //           <ExportReportButton
-// //             overview={overviewQuery.data}
-// //             trends={trendsQuery.data}
-// //             languages={languageQuery.data}
-// //             chartsRef={chartsRef}
-// //           />
-// //         </div>
-// //       </header>
-
-// //       <InlineStatus
-// //         loading={overviewQuery.isLoading}
-// //         error={overviewQuery.error}
-// //       >
-// //         {overviewQuery.data && (
-// //           <OverviewScorecards metrics={overviewQuery.data.scorecards} />
-// //         )}
-// //       </InlineStatus>
-
-// //       <div ref={chartsRef} className="grid grid-cols-1 gap-6 lg:grid-cols-3">
-// //         <div className="lg:col-span-2">
-// //           <Panel
-// //             title="Technical Debt Trend"
-// //             subtitle="Historical debt and quality score evolution"
-// //           >
-// //             <InlineStatus
-// //               loading={trendsQuery.isLoading}
-// //               error={trendsQuery.error}
-// //               empty={(trendsQuery.data?.length ?? 0) === 0}
-// //               emptyMessage="No trend data yet — trigger an initial scan."
-// //             >
-// //               {trendsQuery.data && <DebtTrendsChart data={trendsQuery.data} />}
-// //             </InlineStatus>
-// //           </Panel>
-// //         </div>
-
-// //         <Panel
-// //           title="Severity Distribution"
-// //           subtitle="Share of issues by severity"
-// //         >
-// //           <InlineStatus
-// //             loading={overviewQuery.isLoading}
-// //             error={overviewQuery.error}
-// //           >
-// //             {overviewQuery.data && (
-// //               <SeverityDistributionChart
-// //                 slices={overviewQuery.data.severityDistribution}
-// //               />
-// //             )}
-// //           </InlineStatus>
-// //         </Panel>
-
-// //         <div className="lg:col-span-3">
-// //           <Panel
-// //             title="Language Breakdown"
-// //             subtitle="Issue counts stacked by severity per language"
-// //           >
-// //             <InlineStatus
-// //               loading={languageQuery.isLoading}
-// //               error={languageQuery.error}
-// //               empty={(languageQuery.data?.length ?? 0) === 0}
-// //               emptyMessage="No language metrics available."
-// //             >
-// //               {languageQuery.data && (
-// //                 <div className="space-y-6">
-// //                   <LanguageBreakdownChart data={languageQuery.data} />
-// //                   <LanguageBreakdownTable rows={languageQuery.data} />
-// //                 </div>
-// //               )}
-// //             </InlineStatus>
-// //           </Panel>
-// //         </div>
-// //       </div>
-// //     </div>
-// //   );
-// // };
-
-// // export default AnalyticsDashboard;
-// import {useRepoOverview} from "../hooks/useRepoOverview";
-
-
-// export default function AnalyticsDashboard(){
-
-// const projectId=13; // later from ProjectContext
-
-
-// const {
-// data,
-// isLoading
-// }=useRepoOverview(projectId);
-
-
-
-// if(isLoading)
-// return <div>Loading...</div>;
-
-
-
-// const analytics=data?.data?.[0];
-
-
-// return (
-
-// <div>
-
-
-// <h1>
-// Repository Analytics
-// </h1>
-
-
-// <h2>
-// Technical Debt:
-// {analytics?.technicalDebtScore}
-// </h2>
-
-
-// <h2>
-// Average Complexity:
-// {analytics?.avgComplexity}
-// </h2>
-
-
-
-// <pre>
-// {
-// JSON.stringify(
-// analytics?.severityDistribution,
-// null,
-// 2
-// )
-// }
-// </pre>
-
-
-// </div>
-
-// );
-
-// }
-
-
-
-// src/features/analytics/pages/AnalyticsDashboard.tsx
-//
-// Analytics page (Image 2 / Image 5 in your screenshots).
-// Shows: 4 stat cards, Issues by Severity donut, Complexity Trend area chart,
-//        Refactor Acceptance Rate progress bars, Top Improved Files list.
-// Connects to: GET /analytics, GET /scans
-
 import React from "react";
 import {
   PieChart,
@@ -275,14 +25,14 @@ const StatCard: React.FC<{
   icon: string;
   iconBg: string;
 }> = ({ label, value, sub, subHighlight, icon, iconBg }) => (
-  <div className="rounded-2xl border border-slate-800 bg-slate-900/40 p-5 flex items-start justify-between">
+  <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#161b22] p-5 flex items-start justify-between">
     <div>
-      <p className="text-xs text-slate-400 mb-2">{label}</p>
-      <p className="text-3xl font-black text-slate-100 leading-none">{value}</p>
+      <p className="text-xs text-slate-500 dark:text-slate-400 mb-2">{label}</p>
+      <p className="text-3xl font-black text-slate-900 dark:text-white leading-none">{value}</p>
       {sub && (
-        <p className="mt-2 text-xs text-slate-500">
+        <p className="mt-2 text-xs text-slate-400 dark:text-slate-500">
           {subHighlight && (
-            <span className="text-emerald-400 font-semibold">{subHighlight} </span>
+            <span className="text-emerald-500 dark:text-emerald-400 font-semibold">{subHighlight} </span>
           )}
           {sub}
         </p>
@@ -295,8 +45,8 @@ const StatCard: React.FC<{
 );
 
 const Panel: React.FC<{ title: string; children: React.ReactNode }> = ({ title, children }) => (
-  <section className="rounded-2xl border border-slate-800 bg-slate-900/40 p-5">
-    <h2 className="text-sm font-bold text-slate-100 mb-4">{title}</h2>
+  <section className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#161b22] p-5">
+    <h2 className="text-sm font-bold text-slate-900 dark:text-white mb-4">{title}</h2>
     {children}
   </section>
 );
@@ -311,8 +61,8 @@ const AnalyticsDashboard: React.FC = () => {
 
   if (!activeProject) {
     return (
-      <div className="rounded-2xl border border-slate-800 bg-slate-900/40 p-12 text-center">
-        <p className="text-slate-400 text-sm">
+      <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#161b22] p-12 text-center">
+        <p className="text-slate-500 dark:text-slate-400 text-sm">
           Select a project from the dropdown to view analytics.
         </p>
       </div>
@@ -322,15 +72,15 @@ const AnalyticsDashboard: React.FC = () => {
   if (isLoading) {
     return (
       <div className="space-y-6 animate-pulse">
-        <div className="h-7 w-36 bg-slate-800 rounded-lg" />
+        <div className="h-7 w-36 bg-slate-200 dark:bg-slate-800 rounded-lg" />
         <div className="grid grid-cols-4 gap-4">
           {[...Array(4)].map((_, i) => (
-            <div key={i} className="h-28 bg-slate-800 rounded-2xl" />
+            <div key={i} className="h-28 bg-slate-200 dark:bg-slate-800 rounded-2xl" />
           ))}
         </div>
         <div className="grid grid-cols-2 gap-4">
-          <div className="h-80 bg-slate-800 rounded-2xl" />
-          <div className="h-80 bg-slate-800 rounded-2xl" />
+          <div className="h-80 bg-slate-200 dark:bg-slate-800 rounded-2xl" />
+          <div className="h-80 bg-slate-200 dark:bg-slate-800 rounded-2xl" />
         </div>
       </div>
     );
@@ -356,11 +106,11 @@ const AnalyticsDashboard: React.FC = () => {
     <div className="space-y-6">
       {/* ── Header ── */}
       <div>
-        <p className="text-xs uppercase tracking-wider text-slate-500">Analytics</p>
-        <h1 className="mt-1 text-2xl font-black text-slate-100">
+        <p className="text-xs uppercase tracking-wider text-slate-400 dark:text-slate-500">Analytics</p>
+        <h1 className="mt-1 text-2xl font-black text-slate-900 dark:text-white">
           {activeProject.repoName}
         </h1>
-        <p className="text-xs text-slate-500 mt-0.5">
+        <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
           Track your codebase health and refactoring progress
         </p>
       </div>
@@ -519,17 +269,17 @@ const AnalyticsDashboard: React.FC = () => {
                 const pct = total === 0 ? 0 : (week.accepted / maxWeekTotal) * 100;
                 return (
                   <div key={week.week} className="flex items-center gap-3">
-                    <span className="text-xs text-slate-400 w-14 flex-shrink-0">{week.week}</span>
-                    <div className="flex-1 h-2 bg-slate-800 rounded-full overflow-hidden">
+                    <span className="text-xs text-slate-500 dark:text-slate-400 w-14 flex-shrink-0">{week.week}</span>
+                    <div className="flex-1 h-2 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
                       <div
-                        className="h-full bg-violet-500 rounded-full transition-all duration-500"
+                        className="h-full bg-blue-500 rounded-full transition-all duration-500"
                         style={{ width: `${pct}%` }}
                       />
                     </div>
-                    <span className="text-xs text-slate-400 w-20 text-right flex-shrink-0">
+                    <span className="text-xs text-slate-500 dark:text-slate-400 w-20 text-right flex-shrink-0">
                       {week.accepted} completed
                       {week.rejected > 0 && (
-                        <span className="text-rose-400 ml-1">/ {week.rejected} failed</span>
+                        <span className="text-rose-500 dark:text-rose-400 ml-1">/ {week.rejected} failed</span>
                       )}
                     </span>
                   </div>
@@ -548,10 +298,10 @@ const AnalyticsDashboard: React.FC = () => {
                   className="w-2.5 h-2.5 rounded-full flex-shrink-0"
                   style={{ background: slice.color }}
                 />
-                <span className="text-xs text-slate-300 w-16 flex-shrink-0">
+                <span className="text-xs text-slate-600 dark:text-slate-300 w-16 flex-shrink-0">
                   {slice.label}
                 </span>
-                <div className="flex-1 h-2 bg-slate-800 rounded-full overflow-hidden">
+                <div className="flex-1 h-2 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
                   <div
                     className="h-full rounded-full transition-all duration-500"
                     style={{
@@ -563,7 +313,7 @@ const AnalyticsDashboard: React.FC = () => {
                 <span className="text-xs font-bold w-10 text-right flex-shrink-0" style={{ color: slice.color }}>
                   {slice.count}
                 </span>
-                <span className="text-xs text-slate-500 w-12 text-right flex-shrink-0">
+                <span className="text-xs text-slate-400 dark:text-slate-500 w-12 text-right flex-shrink-0">
                   {slice.percent.toFixed(1)}%
                 </span>
               </div>

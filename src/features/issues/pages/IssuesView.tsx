@@ -1,6 +1,7 @@
 import { useState } from 'react'
+import { useEffect } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { issuesService, IssueFilters } from '../api/issues.service'
 import { useProject } from '../../../features/projects/context/ProjectContext'
 import { useIssuesSync } from '../hooks/useIssuesSync'
@@ -10,12 +11,20 @@ export default function IssuesView() {
   const navigate    = useNavigate()
   const { activeProject } = useProject()
   const queryClient = useQueryClient()
+  const [searchParams] = useSearchParams()
 
   const [page, setPage]         = useState(1)
-  const [search, setSearch]     = useState('')
+  const [search, setSearch]     = useState(searchParams.get('search') ?? '')
   const [severity, setSeverity] = useState('')
   const [category, setCategory] = useState('')
   const [status, setStatus]     = useState('')
+
+  // Sync the search box when arriving from the top-bar search (?search=…).
+  const urlSearch = searchParams.get('search') ?? ''
+  useEffect(() => {
+    setSearch(urlSearch)
+    setPage(1)
+  }, [urlSearch])
 
   const { isSyncing } = useIssuesSync(() => {
     queryClient.invalidateQueries({ queryKey: ['repoIssues'] })
@@ -75,6 +84,21 @@ const totalPages = Math.max(
   1,
   Math.ceil((data?.pagination.total ?? 0) / 5)
 )
+
+// Windowed page numbers so the control never overflows on narrow screens.
+const getPageWindow = (current: number, total: number): (number | 'gap')[] => {
+  if (total <= 7) {
+    return Array.from({ length: total }, (_, i) => i + 1)
+  }
+  const pages: (number | 'gap')[] = [1]
+  const start = Math.max(2, current - 1)
+  const end = Math.min(total - 1, current + 1)
+  if (start > 2) pages.push('gap')
+  for (let p = start; p <= end; p++) pages.push(p)
+  if (end < total - 1) pages.push('gap')
+  pages.push(total)
+  return pages
+}
   if (!activeProject?.id) {
     return (
       <div className="issues-empty-state">
@@ -210,13 +234,17 @@ const totalPages = Math.max(
               onClick={() => setPage(p => Math.max(1, p - 1))}
               disabled={page === 1}
             >‹</button>
-            {Array.from({ length: totalPages }, (_, i) => i + 1).map(p => (
-              <button
-                key={p}
-                className={`issues-page-btn ${p === page ? 'issues-page-btn--active' : ''}`}
-                onClick={() => setPage(p)}
-              >{p}</button>
-            ))}
+            {getPageWindow(page, totalPages).map((p, idx) =>
+              p === 'gap' ? (
+                <span key={`gap-${idx}`} className="issues-page-ellipsis">…</span>
+              ) : (
+                <button
+                  key={p}
+                  className={`issues-page-btn ${p === page ? 'issues-page-btn--active' : ''}`}
+                  onClick={() => setPage(p)}
+                >{p}</button>
+              )
+            )}
             <button
               className="issues-page-btn"
               onClick={() => setPage(p => Math.min(totalPages, p + 1))}

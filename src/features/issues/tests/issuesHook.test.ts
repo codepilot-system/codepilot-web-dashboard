@@ -1,5 +1,9 @@
 import { renderHook, act } from "@testing-library/react";
+<<<<<<< HEAD
 import { describe, it, expect, vi, beforeEach } from "vitest";
+=======
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
+>>>>>>> 97e16e9ffa50406b7951d0c25f502e26033cc9b6
 import { useIssuesSync } from "../hooks/useIssuesSync"; // Adjust path
 import { io } from "socket.io-client";
 
@@ -20,9 +24,22 @@ describe("useIssuesSync Custom React Hook", () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
+<<<<<<< HEAD
     mockSocketInstance = io("http://localhost:5000");
   });
 
+=======
+    // The hook now short-circuits and never opens a socket unless an
+    // access token is present in localStorage, so seed one for the tests.
+    localStorage.setItem("accessToken", "mock-jwt-token");
+    mockSocketInstance = io("http://localhost:5000");
+  });
+
+  afterEach(() => {
+    localStorage.clear();
+  });
+
+>>>>>>> 97e16e9ffa50406b7951d0c25f502e26033cc9b6
   it("should initialize with syncing state turned off", () => {
     const { result } = renderHook(() => useIssuesSync(mockOnScanComplete));
     expect(result.current.isSyncing).toBe(false);

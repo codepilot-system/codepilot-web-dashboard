@@ -3,7 +3,6 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import React from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
-// Import API services to mock their network cycles
 import {
   fetchAvailableGithubRepos,
   trackRepositoryEndpoint,

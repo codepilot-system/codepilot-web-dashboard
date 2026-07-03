@@ -62,11 +62,11 @@ describe("Codebase Issues Analysis Service", () => {
     expect(result).toEqual(mockUpdatedIssue);
   });
 
-  it("should issue an execution post command when applying an AI generated code patch", async () => {
+  it("should issue an execution post command when applying an AI generated code suggestion", async () => {
     vi.mocked(api.post).mockResolvedValueOnce({ status: 200 });
 
-    await issuesService.applyPatch("issue-88");
+    await issuesService.applySuggestion(88);
 
-    expect(api.post).toHaveBeenCalledWith("/issues/issue-88/apply");
+    expect(api.post).toHaveBeenCalledWith("/suggestions/88/apply");
   });
 });

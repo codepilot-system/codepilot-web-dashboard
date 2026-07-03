@@ -1,1 +1,10 @@
 @import "tailwindcss";
+
+/* Enable class-based dark mode so we can toggle themes manually.
+   Any element inside `.dark` (or `.dark` itself) activates `dark:` utilities. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Smooth color transitions when switching between light and dark themes. */
+html {
+  transition: background-color 0.2s ease, color 0.2s ease;
+}

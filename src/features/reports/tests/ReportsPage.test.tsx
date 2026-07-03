@@ -3,7 +3,6 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import ReportsPage from "../../reports/pages/ReportsPage";
 import { useProject } from "../../projects/context/ProjectContext";
 import { useReportSummary } from "../../analytics/hooks/useAnalyticsData";
-import { getScanReport } from "../../analytics/api/analytics.service";
 
 // 1. Structural hook configurations mocking
 vi.mock("../../projects/context/ProjectContext", () => ({
@@ -12,10 +11,6 @@ vi.mock("../../projects/context/ProjectContext", () => ({
 
 vi.mock("../../analytics/hooks/useAnalyticsData", () => ({
   useReportSummary: vi.fn(),
-}));
-
-vi.mock("../../analytics/api/analytics.service", () => ({
-  getScanReport: vi.fn(),
 }));
 
 describe("ReportsPage Interactive Component Interface", () => {
@@ -102,7 +97,7 @@ describe("ReportsPage Interactive Component Interface", () => {
     fireEvent.click(executiveSummaryItem);
   });
 
-  it("should execute binary report compilation and handle client download actions on click", async () => {
+  it("should open a printable report window on download click", async () => {
     (useProject as any).mockReturnValue(mockProjectContext);
     (useReportSummary as any).mockReturnValue({
       data: mockReportData,
@@ -110,8 +105,14 @@ describe("ReportsPage Interactive Component Interface", () => {
       error: null,
     });
 
-    const fakeBlob = new Blob(["contents"], { type: "application/pdf" });
-    (getScanReport as any).mockResolvedValueOnce(fakeBlob);
+    // The page builds an HTML report and opens it in a new window that
+    // auto-triggers window.print(). Mock window.open to capture the output.
+    const fakeWin = {
+      document: { write: vi.fn(), close: vi.fn() },
+    };
+    const openSpy = vi
+      .spyOn(window, "open")
+      .mockReturnValue(fakeWin as unknown as Window);
 
     render(<ReportsPage />);
 
@@ -121,8 +122,13 @@ describe("ReportsPage Interactive Component Interface", () => {
     fireEvent.click(downloadButtons[0]);
 
     await waitFor(() => {
-      expect(getScanReport).toHaveBeenCalledWith(55);
-      expect(window.URL.createObjectURL).toHaveBeenCalledWith(fakeBlob);
+      expect(openSpy).toHaveBeenCalled();
+      expect(fakeWin.document.write).toHaveBeenCalled();
     });
+
+    const writtenHtml = fakeWin.document.write.mock.calls[0][0] as string;
+    expect(writtenHtml).toContain("82");
+
+    openSpy.mockRestore();
   });
 });

@@ -1,19 +1,6 @@
-// =======================================================
-// Centralised TanStack Query cache lifetime tuning.
-// Keeping these constants in one place lets us tweak chatter
-// behaviour across the whole analytics surface from a single seam.
-// =======================================================
-
 const SECOND = 1000;
 const MINUTE = 60 * SECOND;
 
-/**
- * Per-query cache profile.
- * `staleTime`: window during which cached data is considered fresh and
- *              re-renders / tab swaps will NOT trigger a refetch.
- * `gcTime`:    how long unused data lingers in the cache before GC.
- * `refetchInterval`: optional polling for "live-ish" panels.
- */
 export const analyticsCacheConfig = {
   overview: {
     staleTime: 2 * MINUTE,
